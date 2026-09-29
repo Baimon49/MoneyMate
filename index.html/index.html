@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MoneyMate - หน้าหลัก</title>
+<meta name="description" content="MoneyMate แอปจัดการเงินส่วนตัวสำหรับนักเรียน">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2F8F5B">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="dashboard">
+
+  <div class="app-shell">
+    <!-- ===== Sidebar (desktop) ===== -->
+    <aside class="sidebar">
+      <div class="brand"><span class="logo-badge">฿</span> MoneyMate</div>
+      <nav class="side-nav">
+        <a href="index.html" data-nav-link="dashboard"><span class="ic">🏠</span> หน้าหลัก</a>
+        <a href="history.html" data-nav-link="history"><span class="ic">🧾</span> ประวัติ</a>
+        <a href="budget.html" data-nav-link="budget"><span class="ic">🎯</span> งบประมาณ</a>
+        <a href="goals.html" data-nav-link="goals"><span class="ic">🏆</span> เป้าหมาย</a>
+      </nav>
+      <div class="side-footer">
+        <button class="reset-app-btn" data-reset-app title="ล้างข้อมูลทั้งหมด (รีเซ็ตแอป)">🗑️</button>
+        <div class="side-footer-theme">
+          <span class="muted" style="font-size:12.5px;">ธีม</span>
+          <div class="theme-toggle">
+            <button data-theme-btn="light" title="โหมดสว่าง">☀️</button>
+            <button data-theme-btn="dark" title="โหมดมืด">🌙</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== Main content ===== -->
+    <main class="main-content">
+      <div class="topbar">
+        <div class="brand"><span class="logo-badge">฿</span> MoneyMate</div>
+        <div class="topbar-actions">
+          <button class="reset-app-btn" data-reset-app title="ล้างข้อมูลทั้งหมด (รีเซ็ตแอป)">🗑️</button>
+          <div class="theme-toggle">
+            <button data-theme-btn="light" title="โหมดสว่าง">☀️</button>
+            <button data-theme-btn="dark" title="โหมดมืด">🌙</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <div>
+          <h1>สวัสดี 👋</h1>
+          <p>ภาพรวมการเงินของคุณเดือนนี้</p>
+        </div>
+      </div>
+
+      <div id="noSalaryNote" class="modal-alert" style="display:none;">
+        ยังไม่ได้ตั้งรายรับของเดือนนี้ กด "เพิ่มรายรับ" เพื่อเริ่มใช้งาน
+      </div>
+
+      <!-- Summary cards -->
+      <div class="summary-grid">
+        <div class="card" id="cardRemaining">
+          <div class="card-title">เงินคงเหลือ</div>
+          <div class="amount positive">0 ฿</div>
+        </div>
+        <div class="card" id="cardSalary">
+          <div class="card-title">รายรับ</div>
+          <div class="amount">0 ฿</div>
+          <div class="foot" id="cardSalaryDate"></div>
+        </div>
+        <div class="card" id="cardExpense">
+          <div class="card-title">รายจ่ายทั้งหมด (เดือนนี้)</div>
+          <div class="amount negative">0 ฿</div>
+        </div>
+        <div class="card" id="cardUsedPct">
+          <div class="card-title">ใช้ไปแล้ว</div>
+          <div class="amount">0%</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="btn btn-primary" id="setSalaryBtn">💰 เพิ่มรายรับ</button>
+        <button class="btn btn-secondary" id="addExpenseBtn">➕ เพิ่มรายจ่าย</button>
+      </div>
+      <div class="nav-buttons">
+        <a class="btn btn-ghost" href="history.html">🧾 ไปหน้า History</a>
+        <a class="btn btn-ghost" href="budget.html">🎯 ไปหน้า Budget</a>
+        <a class="btn btn-ghost" href="goals.html">🏆 ไปหน้า Goals</a>
+      </div>
+
+      <!-- Range-based summary -->
+      <div class="section-title">สรุปการเงินตามช่วงเวลา</div>
+      <div class="range-bar">
+        <span class="range-caption" id="rangeCaption">สรุปการเงิน — 6 เดือนล่าสุด</span>
+        <select id="rangeSelect">
+          <option value="this-month">เดือนนี้</option>
+          <option value="3m">3 เดือนล่าสุด</option>
+          <option value="6m" selected>6 เดือนล่าสุด</option>
+          <option value="1y">1 ปีล่าสุด</option>
+          <option value="custom">กำหนดช่วงเวลาเอง</option>
+        </select>
+      </div>
+      <div class="custom-range-row" id="customRangeRow">
+        <input type="month" id="customStartMonth">
+        <span class="muted" style="align-self:center;">ถึง</span>
+        <input type="month" id="customEndMonth">
+      </div>
+
+      <div class="stat-row">
+        <div class="card"><div class="card-title">รายรับรวม</div><div class="amount" id="statSalaryTotal">0 ฿</div></div>
+        <div class="card"><div class="card-title">รายจ่ายรวม</div><div class="amount" id="statExpenseTotal">0 ฿</div></div>
+        <div class="card"><div class="card-title">เงินคงเหลือสุทธิ</div><div class="amount" id="statNetRemaining">0 ฿</div></div>
+        <div class="card"><div class="card-title">ค่าใช้จ่ายเฉลี่ย/เดือน</div><div class="amount" id="statAvgExpense">0 ฿</div></div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="card chart-card">
+          <div class="card-title">รายรับ vs รายจ่าย</div>
+          <div style="position:relative; height:260px;">
+            <canvas id="salaryExpenseChart"></canvas>
+            <div class="empty-state" id="salaryExpenseEmpty" style="display:none;">
+              <span class="em">📊</span><p>ยังไม่มีข้อมูลการเงินในช่วงเวลานี้</p>
+            </div>
+          </div>
+        </div>
+        <div class="card chart-card">
+          <div class="card-title">ค่าใช้จ่ายตามหมวดหมู่</div>
+          <div style="position:relative; height:260px;">
+            <canvas id="categoryChart"></canvas>
+            <div class="empty-state" id="categoryEmpty" style="display:none;">
+              <span class="em">🍩</span><p>ยังไม่มีรายจ่ายในช่วงเวลานี้</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">ตารางสรุปการเงิน</div>
+        <div class="summary-table-wrap" id="summaryTableWrap">
+          <table class="summary-table">
+            <thead><tr><th>เดือน</th><th>รายรับ</th><th>รายจ่าย</th><th>เงินคงเหลือ</th></tr></thead>
+            <tbody id="summaryTableBody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="summaryTableEmpty" style="display:none;">
+          <span class="em">🗂️</span><p>ยังไม่มีข้อมูลการเงินในช่วงเวลานี้</p>
+        </div>
+      </div>
+
+      <!-- Recent transactions -->
+      <div class="card">
+        <div class="card-title">รายการธุรกรรมล่าสุด</div>
+        <div class="tx-list" id="recentTxList"></div>
+        <div class="empty-state" id="recentTxEmpty" style="display:none;">
+          <span class="em">🧾</span>
+          <p>ยังไม่มีรายการรายจ่าย</p>
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('addExpenseBtn').click()">เพิ่มรายจ่ายแรกของคุณ</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== Bottom nav (mobile) ===== -->
+  <nav class="bottom-nav">
+    <a href="index.html" data-nav-link="dashboard"><span class="ic">🏠</span>หน้าหลัก</a>
+    <a href="history.html" data-nav-link="history"><span class="ic">🧾</span>ประวัติ</a>
+    <a href="budget.html" data-nav-link="budget"><span class="ic">🎯</span>งบประมาณ</a>
+    <a href="goals.html" data-nav-link="goals"><span class="ic">🏆</span>เป้าหมาย</a>
+  </nav>
+
+  <!-- ===== Salary Modal ===== -->
+  <div class="modal-overlay" id="salaryModal">
+    <div class="modal-box">
+      <div class="modal-head"><h3>ตั้งรายรับ</h3></div>
+      <div class="field">
+        <label>วันที่ตั้งรายรับ</label>
+        <div class="date-select-row">
+          <select id="salaryDaySelect" aria-label="วัน"></select>
+          <select id="salaryMonthSelect" aria-label="เดือน"></select>
+          <select id="salaryYearSelect" aria-label="ปี พ.ศ."></select>
+        </div>
+        <div class="field-hint">เดือนที่เลือกจะเป็นเดือนที่บันทึกรายรับนี้</div>
+      </div>
+      <div class="field">
+        <label>แหล่งที่มาของเงิน</label>
+        <select id="salarySourceSelect"></select>
+        <input type="text" id="salaryNewSource" placeholder="พิมพ์ชื่อแหล่งที่มา เช่น ขายของออนไลน์" style="display:none;margin-top:8px;">
+      </div>
+      <div class="field">
+        <label>จำนวนเงิน (บาท)</label>
+        <input type="number" id="salaryAmountInput" min="0" step="0.01" placeholder="เช่น 20000">
+      </div>
+      <div class="field-error" id="salaryError"></div>
+      <div id="salaryEntryList"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="salaryCancelBtn">ยกเลิก</button>
+        <button class="btn btn-primary" id="salarySaveBtn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Expense Modal ===== -->
+  <div class="modal-overlay" id="expenseModal">
+    <div class="modal-box">
+      <div class="modal-head"><h3 id="expenseModalTitle">เพิ่มรายจ่าย</h3></div>
+      <div class="modal-alert" id="expenseAlert"></div>
+      <div class="field">
+        <label>จำนวนเงิน (บาท)</label>
+        <input type="number" id="expenseAmountInput" min="0" step="0.01" placeholder="เช่น 150">
+      </div>
+      <div class="field">
+        <label>หมวดหมู่</label>
+        <div class="category-picker" id="expenseCategoryPicker"></div>
+      </div>
+      <div class="field">
+        <label>รายละเอียด</label>
+        <input type="text" id="expenseNoteInput" placeholder="เช่น ข้าวกลางวัน">
+      </div>
+      <div class="field">
+        <label>จ่ายจากแหล่งเงิน (รายรับ)</label>
+        <select id="expenseSourceSelect"></select>
+      </div>
+      <div class="field">
+        <label>วันที่</label>
+        <div class="date-select-row">
+          <select id="expenseDaySelect" aria-label="วัน"></select>
+          <select id="expenseMonthSelect" aria-label="เดือน"></select>
+          <select id="expenseYearSelect" aria-label="ปี พ.ศ."></select>
+        </div>
+        <input type="hidden" id="expenseDateInput">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="expenseCancelBtn">ยกเลิก</button>
+        <button class="btn btn-danger" id="expenseDeleteBtn" style="display:none;">ลบ</button>
+        <button class="btn btn-primary" id="expenseSaveBtn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Confirm Modal (shared) ===== -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box confirm-box">
+      <div class="modal-head"><h3>ยืนยันการทำรายการ</h3></div>
+      <p id="confirmMessage">คุณแน่ใจหรือไม่?</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="confirmNoBtn">ยกเลิก</button>
+        <button class="btn btn-danger" id="confirmYesBtn">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/transactions.js"></script>
+  <script src="js/charts.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW registration failed', err));
+      });
+    }
+  </script>
+</body>
+</html>

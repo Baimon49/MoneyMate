@@ -1,0 +1,125 @@
+/* =========================================================
+   MoneyMate - dashboard.css
+   Styles specific to the dashboard: summary cards, quick
+   actions, charts, range picker, summary table, recent list.
+   ========================================================= */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.summary-grid .card { display: flex; flex-direction: column; gap: 6px; }
+.summary-grid .card .foot { font-size: 12.5px; color: var(--color-text-muted); }
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0 4px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+
+.range-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 4px;
+}
+.range-bar select {
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.range-caption {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.custom-range-row {
+  display: none;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.custom-range-row.show { display: flex; }
+.custom-range-row input {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 14px 0 20px;
+}
+.stat-row .card .amount { font-size: 21px; }
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.chart-card canvas { display: block; width: 100%; height: 100%; max-height: 260px; }
+.chart-card .card-title { display: flex; justify-content: space-between; align-items: center; }
+
+.summary-table-wrap { overflow-x: auto; }
+table.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  min-width: 480px;
+}
+table.summary-table th, table.summary-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+table.summary-table th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 12.5px;
+  text-transform: none;
+}
+table.summary-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.summary-table tr:last-child td { border-bottom: none; }
+
+.tx-list { display: flex; flex-direction: column; gap: 2px; }
+.tx-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--color-border);
+}
+.tx-row:last-child { border-bottom: none; }
+.tx-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  background: var(--color-surface-soft);
+  flex-shrink: 0;
+}
+.tx-info { flex: 1; min-width: 0; }
+.tx-info .t1 { font-weight: 600; font-size: 14px; }
+.tx-info .t2 { font-size: 12.5px; color: var(--color-text-muted); }
+.tx-amount { font-weight: 700; color: var(--color-danger); white-space: nowrap; }
+.tx-actions { display: flex; gap: 6px; }

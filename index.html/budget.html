@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MoneyMate - งบประมาณ</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2F8F5B">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="budget">
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="logo-badge">฿</span> MoneyMate</div>
+      <nav class="side-nav">
+        <a href="index.html" data-nav-link="dashboard"><span class="ic">🏠</span> หน้าหลัก</a>
+        <a href="history.html" data-nav-link="history"><span class="ic">🧾</span> ประวัติ</a>
+        <a href="budget.html" data-nav-link="budget"><span class="ic">🎯</span> งบประมาณ</a>
+        <a href="goals.html" data-nav-link="goals"><span class="ic">🏆</span> เป้าหมาย</a>
+      </nav>
+      <div class="side-footer">
+        <button class="reset-app-btn" data-reset-app title="ล้างข้อมูลทั้งหมด (รีเซ็ตแอป)">🗑️</button>
+        <div class="side-footer-theme">
+          <span class="muted" style="font-size:12.5px;">ธีม</span>
+          <div class="theme-toggle">
+            <button data-theme-btn="light" title="โหมดสว่าง">☀️</button>
+            <button data-theme-btn="dark" title="โหมดมืด">🌙</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="topbar">
+        <div class="brand"><span class="logo-badge">฿</span> MoneyMate</div>
+        <div class="topbar-actions">
+          <button class="reset-app-btn" data-reset-app title="ล้างข้อมูลทั้งหมด (รีเซ็ตแอป)">🗑️</button>
+          <div class="theme-toggle">
+            <button data-theme-btn="light" title="โหมดสว่าง">☀️</button>
+            <button data-theme-btn="dark" title="โหมดมืด">🌙</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-header">
+        <div>
+          <h1>งบประมาณรายเดือน</h1>
+          <p>ตั้งเพดานการใช้จ่ายเพื่อควบคุมตัวเองให้อยู่ในงบ</p>
+        </div>
+        <input type="month" id="budgetMonthPicker">
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title" id="budgetCaption">เดือนนี้</div>
+
+        <div class="empty-state" id="budgetEmptyState" style="display:none;">
+          <span class="em">🎯</span>
+          <p>ยังไม่ได้ตั้งงบประมาณของเดือนนี้</p>
+          <button class="btn btn-primary" id="setBudgetBtnEmpty">ตั้งงบประมาณ</button>
+        </div>
+
+        <div id="budgetDetail" style="display:none;">
+          <div class="budget-summary-grid">
+            <div>
+              <div class="card-title">งบทั้งหมด</div>
+              <div class="amount" id="budgetTotalAmount">0 ฿</div>
+            </div>
+            <div>
+              <div class="card-title">ใช้ไปแล้ว</div>
+              <div class="amount negative" id="budgetSpentAmount">0 ฿</div>
+            </div>
+            <div>
+              <div class="card-title">เหลือ</div>
+              <div class="amount positive" id="budgetRemainingAmount">0 ฿</div>
+            </div>
+          </div>
+          <div class="progress-track" style="margin-bottom:8px;">
+            <div class="progress-fill" id="budgetProgressFill" style="width:0%;"></div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <span class="muted" id="budgetPercentText">0%</span>
+            <span class="pill ok" id="budgetStatusPill">อยู่ในงบประมาณ</span>
+          </div>
+          <button class="btn btn-secondary" id="setBudgetBtn" style="margin-top:16px;">✏️ แก้ไขงบประมาณ</button>
+        </div>
+      </div>
+
+      <div class="section-title">ประวัติงบประมาณ</div>
+      <div class="card">
+        <div class="tx-list" id="budgetHistoryList"></div>
+        <div class="empty-state" id="budgetHistoryEmpty" style="display:none;">
+          <span class="em">🗂️</span>
+          <p>ยังไม่มีประวัติงบประมาณ</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" data-nav-link="dashboard"><span class="ic">🏠</span>หน้าหลัก</a>
+    <a href="history.html" data-nav-link="history"><span class="ic">🧾</span>ประวัติ</a>
+    <a href="budget.html" data-nav-link="budget"><span class="ic">🎯</span>งบประมาณ</a>
+    <a href="goals.html" data-nav-link="goals"><span class="ic">🏆</span>เป้าหมาย</a>
+  </nav>
+
+  <!-- Budget Modal -->
+  <div class="modal-overlay" id="budgetModal">
+    <div class="modal-box">
+      <div class="modal-head"><h3>ตั้งงบประมาณ</h3></div>
+      <div class="field">
+        <label>สำหรับเดือน</label>
+        <input type="month" id="budgetModalMonthInput">
+      </div>
+      <div class="field">
+        <label>จำนวนงบประมาณ (บาท)</label>
+        <input type="number" id="budgetModalAmountInput" min="0" step="0.01" placeholder="เช่น 5000">
+      </div>
+      <div class="field-error" id="budgetModalError"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="budgetModalCancelBtn">ยกเลิก</button>
+        <button class="btn btn-primary" id="budgetModalSaveBtn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box confirm-box">
+      <div class="modal-head"><h3>ยืนยันการทำรายการ</h3></div>
+      <p id="confirmMessage">คุณแน่ใจหรือไม่?</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="confirmNoBtn">ยกเลิก</button>
+        <button class="btn btn-danger" id="confirmYesBtn">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/budget.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW registration failed', err));
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "categories": [
+    { "id": "food", "label": "อาหาร", "icon": "🍜", "color": "#2F8F5B" },
+    { "id": "transport", "label": "เดินทาง", "icon": "🚌", "color": "#3C8FB0" },
+    { "id": "shopping", "label": "ช้อปปิ้ง", "icon": "🛍️", "color": "#C77DBF" },
+    { "id": "study", "label": "การเรียน", "icon": "📚", "color": "#C9A227" },
+    { "id": "entertainment", "label": "ความบันเทิง", "icon": "🎬", "color": "#D97A5D" },
+    { "id": "other", "label": "อื่น ๆ", "icon": "📦", "color": "#8A8F86" }
+  ]
+}

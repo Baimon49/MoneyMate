@@ -1,0 +1,57 @@
+/* =========================================================
+   MoneyMate - responsive.css
+   Breakpoints, mobile bottom navigation, tablet/desktop
+   adjustments for the shell and dashboard grids.
+   ========================================================= */
+
+.bottom-nav {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: var(--bottom-nav-h);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  align-items: center;
+  justify-content: space-around;
+  z-index: 150;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 6px 10px;
+}
+.bottom-nav a .ic { font-size: 19px; }
+.bottom-nav a.active { color: var(--color-primary-dark); }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1024px) {
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .topbar { display: flex; }
+  .main-content { padding: 16px 14px calc(var(--bottom-nav-h) + 22px); }
+  .bottom-nav { display: flex; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .page-header h1 { font-size: 20px; }
+  .amount { font-size: 22px; }
+  .stat-row .card .amount { font-size: 18px; }
+  .quick-actions .btn, .nav-buttons .btn { flex: 1 1 45%; }
+  .category-picker { grid-template-columns: repeat(3, 1fr); }
+  .modal-box { max-width: 100%; }
+}
+
+@media (max-width: 420px) {
+  .summary-grid, .stat-row { grid-template-columns: 1fr 1fr; }
+}

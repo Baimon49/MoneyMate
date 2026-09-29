@@ -1,0 +1,26 @@
+{
+  "name": "MoneyMate - จัดการเงินสำหรับนักเรียน",
+  "short_name": "MoneyMate",
+  "description": "แอปจัดการเงินส่วนตัวสำหรับนักเรียน ตั้งเงินเดือน บันทึกรายจ่าย ตั้งงบประมาณ และเก็บเงินไปให้ถึงเป้าหมาย",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F6F4EC",
+  "theme_color": "#2F8F5B",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
